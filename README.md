@@ -83,6 +83,20 @@ Não precisa de admin. Instala em:
 Requisitos:
 - **Python 3.12+** (testado no 3.14)
 
+## FAQ
+
+**O que é o Gerenciador de Capas e Metadados para MP3?**
+É uma ferramenta open source em Python para gerenciar capas e metadados de arquivos MP3, com suporte a 5 idiomas e perfis configuráveis para diferentes aparelhos.
+
+**Em quais sistemas operacionais funciona?**
+Windows, Linux e macOS. O código é portável; apenas o empacotamento (.exe) é específico para Windows.
+
+**Preciso pagar algo?**
+Não. É totalmente gratuito e open source, sob licença MIT.
+
+**Como faço para instalar?**
+Baixe o instalador na página de Releases ou rode direto do código com `pip install -r requirements.txt`.
+
 ```bash
 # Clone o repositório
 git clone https://github.com/Kdu5411/gerenciador-capas-mp3.git
