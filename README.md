@@ -83,7 +83,22 @@ Não precisa de admin. Instala em:
 Requisitos:
 - **Python 3.12+** (testado no 3.14)
 
-## FAQ
+Comandos:
+
+    git clone https://github.com/kaduhcustodio-hub/gerenciador-capas-mp3.git
+    cd gerenciador-capas-mp3
+
+    python -m venv venv
+    venv\Scripts\activate      # Windows
+    # source venv/bin/activate # Linux/macOS
+
+    pip install -r requirements.txt
+
+    python Capas_por_musica.py
+
+---
+
+## ❓ Perguntas Frequentes (FAQ)
 
 **O que é o Gerenciador de Capas e Metadados para MP3?**
 É uma ferramenta open source em Python para gerenciar capas e metadados de arquivos MP3, com suporte a 5 idiomas e perfis configuráveis para diferentes aparelhos.
@@ -95,22 +110,125 @@ Windows, Linux e macOS. O código é portável; apenas o empacotamento (.exe) é
 Não. É totalmente gratuito e open source, sob licença MIT.
 
 **Como faço para instalar?**
-Baixe o instalador na página de Releases ou rode direto do código com `pip install -r requirements.txt`.
+Windows: baixe o instalador na página de Releases. Linux/macOS: clone o repositório, rode `pip install -r requirements.txt` e depois `python Capas_por_musica.py`.
 
-```bash
-# Clone o repositório
-git clone https://github.com/Kdu5411/gerenciador-capas-mp3.git
-cd gerenciador-capas-mp3
+**O que é um "perfil de destino"?**
+É uma configuração que define como as tags serão escritas no arquivo MP3. Diferentes aparelhos exigem formatos diferentes. Vem com 2 perfis prontos (Flip Vita 4G e Universal), e você pode criar os seus.
 
-# Crie e ative um ambiente virtual (opcional, recomendado)
-python -m venv venv
-venv\Scripts\activate      # Windows
-# source venv/bin/activate # Linux/macOS
+**O que significa "congelar capa"?**
+É marcar uma música para que a capa dela nunca seja alterada, mesmo que você use o editor de metadados ou o botão "Normalizar" depois.
 
-# Instale as dependências
-pip install -r requirements.txt
+**Como funciona a busca online?**
+O editor consulta em paralelo o MusicBrainz, iTunes e Deezer, mostra os resultados numa tabela, e você escolhe qual aplicar. Também baixa capas automaticamente.
 
-# Rode o programa
-python Capas_por_musica.py
+**Posso adicionar novos idiomas?**
+Sim! Basta criar um arquivo `.json` na pasta `i18n/` (copiando a estrutura do `pt_BR.json`) e registrar a nova língua no arquivo `i18n.py`.
+
+**Como funciona o Ctrl+Z no editor?**
+Dentro do editor de metadados, `Ctrl+Z` desfaz e `Ctrl+Y` refaz as últimas ações (associações, numeração, troca de capa).
+
+---
+
+## 📦 Dependências
+
+| Biblioteca | Para quê |
+|---|---|
+| `mutagen` | Leitura/escrita de tags ID3 |
+| `Pillow` | Manipulação de imagens (capas) |
+| `pygame-ce` | Player de áudio |
+| `musicbrainzngs` | Busca online (MusicBrainz) |
+| `requests` | Busca online (iTunes, Deezer, CAA) |
+| `tkinterdnd2` | Arrastar-e-soltar imagens (opcional) |
+
+Todas em `requirements.txt`.
+
+---
+
+## 🔧 Gerar o `.exe` (para quem quer distribuir)
+
+Já vem com um arquivo `Capas_por_musica.spec` pronto para o PyInstaller.
+
+Comandos:
+
+    pip install pyinstaller
+    python -m PyInstaller --clean --noconfirm Capas_por_musica.spec
+
+O resultado fica em `dist/GerenciadorCapas/`.
+
+Para gerar o instalador, você precisa do
+[Inno Setup 6](https://jrsoftware.org/isdl.php) instalado. Depois:
+
+    "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" instalador.iss
+
+O instalador final fica em `installer/`.
+
+---
+
+## 📂 Estrutura do projeto
+
+    Capas Python/
+    ├── Capas_por_musica.py       # código principal
+    ├── Capas_por_musica.spec     # script do PyInstaller
+    ├── Instalador.iss            # script do Inno Setup
+    ├── i18n.py                   # motor de tradução
+    ├── i18n/                     # arquivos de tradução
+    │   ├── pt_BR.json
+    │   ├── en.json
+    │   ├── es.json
+    │   ├── ja.json
+    │   └── ko.json
+    ├── icon.png                  # ícone do programa
+    ├── icon.ico                  # ícone gerado automaticamente
+    ├── requirements.txt          # dependências
+    ├── README.md                 # este arquivo
+    ├── README.en.md              # versão em inglês
+    ├── LICENSE                   # licença MIT
+    ├── AUTHORS                   # autores
+    └── .gitignore                # arquivos ignorados pelo Git
+
+Os arquivos `config.json`, `perfis.json` e `covers_ignore.json` são gerados
+automaticamente na primeira execução, na mesma pasta do programa.
+
+---
+
+## 💡 Dicas de uso
+
+- **Normalizar** = reescrever as tags no formato do perfil escolhido,
+  **mantendo capa e metadados atuais**. Útil para deixar todos os MP3
+  no mesmo padrão técnico.
+- **Congelar capa** = marcar uma música para que a capa dela **nunca**
+  seja substituída (útil quando você tem a capa perfeita e não quer perder).
+- **Renomear playlists com prefixo** = adiciona `01-`, `02-`, etc. nas
+  pastas para que a ordem fique gravada no próprio sistema de arquivos.
+  Essencial para aparelhos que ordenam por nome.
+
+---
+
+## 🤝 Contribuindo
+
+Sugestões e melhorias são bem-vindas! Abra uma
+[issue](../../issues) ou mande um pull request.
+
+Especialmente bem-vindas: **novas traduções** (é só adicionar um arquivo
+`.json` na pasta `i18n/` e registrar em `i18n.py`).
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença **MIT** — veja [LICENSE](LICENSE)
+para mais detalhes.
+
+## 👤 Autor
+
+**Carlos Eduardo Loffreda Custodio** ([@kaduhcustodio-hub](https://github.com/kaduhcustodio-hub))
+
 ## 🙏 Agradecimentos
+
 - Ícone por [Flaticon](https://www.flaticon.com)
+- [MusicBrainz](https://musicbrainz.org/) por manter um banco de dados
+  musical aberto e gratuito
+- [Cover Art Archive](https://coverartarchive.org/) pelas capas
+- [iTunes Search API](https://performance-partners.apple.com/search-api)
+  e [Deezer API](https://developers.deezer.com/api) pelas buscas
+- Comunidade Python, `mutagen`, `Pillow`, `pygame-ce` e `tkinterdnd2`
